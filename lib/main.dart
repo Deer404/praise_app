@@ -1,4 +1,7 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:praise_app/constant/sentence.dart';
 
 void main() => runApp(MyApp());
 
@@ -37,7 +40,6 @@ class _MainPageState extends State<MainPage> {
   void initState() {
     text = "";
     controller = TextEditingController();
-
     super.initState();
   }
 
@@ -59,9 +61,12 @@ class _MainPageState extends State<MainPage> {
                 child: TextField(
                   textInputAction: TextInputAction.done,
                   controller: controller,
-                  onChanged: (v){
+                  onChanged: (v) {
                     setState(() {
-                      text = v;
+                      Sentence sentence = Sentence(v);
+                      List<String> sentenceList = sentence.getList();
+                      int ranNum = Random().nextInt(sentenceList.length - 1);
+                      text = sentenceList[ranNum];
                     });
                   },
                 ),
@@ -71,7 +76,7 @@ class _MainPageState extends State<MainPage> {
                 padding: EdgeInsets.only(top: 20.0, left: 20.0, right: 20.0),
                 child: Card(
                   child: Center(
-                    child: text !=null ? Text(text) :Container(),
+                    child: text != null ? Text(text) : Container(),
                   ),
                 ))
           ],
