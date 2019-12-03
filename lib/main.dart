@@ -36,6 +36,7 @@ class MainPage extends StatefulWidget {
 class _MainPageState extends State<MainPage> {
   String text;
   TextEditingController controller;
+  String before_text;
   @override
   void initState() {
     text = "";
@@ -61,14 +62,39 @@ class _MainPageState extends State<MainPage> {
                 child: TextField(
                   textInputAction: TextInputAction.done,
                   controller: controller,
-                  onChanged: (v) {
-                    setState(() {
-                      Sentence sentence = Sentence(v);
-                      List<String> sentenceList = sentence.getList();
-                      int ranNum = Random().nextInt(sentenceList.length - 1);
+                  // onChanged: (v) {
+
+                  // },
+                ),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.only(top: 5.0),
+              child: FlatButton(
+                onPressed: () {
+                  Sentence sentence = Sentence(controller.text);
+                    List<String> sentenceList = sentence.getList();
+                    print(sentenceList.length);
+                    int ranNum = Random().nextInt(sentenceList.length - 1);
+                    text = sentenceList[ranNum];
+                    if (before_text != text) {
+                      before_text = text;
+                      setState(() {
+                        text = text;
+                      });
+                    } else {
+                      ranNum = Random().nextInt(sentenceList.length - 1);
                       text = sentenceList[ranNum];
-                    });
-                  },
+                      before_text = text;
+                      setState(() {
+                        text = text;
+                      });
+                    }
+                },
+                color: Colors.lightBlue,
+                child: Text(
+                  "生成",
+                  style: TextStyle(color: Colors.white),
                 ),
               ),
             ),
